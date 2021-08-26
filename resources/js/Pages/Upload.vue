@@ -1,39 +1,29 @@
 <template>
-  <app-layout>
-      <form @submit.prevent="submit">
-          <input type="text" name="name" v-model="form.name" />
-          <input type="file" name="avatar" @input="form.avatar = $event.target.files[0]" />
-          <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-              {{ form.progress.percentage }}%
-          </progress>
-          <button type="submit">Отправить</button>
-      </form>
-  </app-layout>
+    <form @submit.prevent="submit">
+        <input type="text" v-model="form.name" />
+        <input type="file" @input="form.avatar = $event.target.files[0]" />
+        <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+            {{ form.progress.percentage }}%
+        </progress>
+        <button type="submit">Submit</button>
+    </form>
 </template>
 
 <script>
-    import AppLayout from '@/Layouts/AppLayout.vue'
-export default {
-    components: {
-        AppLayout,
-    },
-    data() {
-        return {
-            form: this.$inertia.form({
-                name: null,
-                avatar: null,
-            }),
-        }
-    },
-    methods: {
-        submit() {
-            this.form.post('upload ')
-        },
-    },
+import { useForm } from '@inertiajs/inertia-vue3'
 
+export default {
+    setup () {
+        const form = useForm({
+            name: null,
+            avatar: null,
+        })
+
+        function submit() {
+            form.post('/upload')
+        }
+
+        return { form, submit }
+    },
 }
 </script>
-
-<style scoped>
-
-</style>

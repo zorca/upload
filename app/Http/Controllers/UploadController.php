@@ -14,11 +14,8 @@ class UploadController extends Controller
 
     public function upload(Request $request)
     {
-        dd($request);
-//        $request->validate([
-//                'avatar'=>'mimes:pdf'
-//            ]
-//        );
-
+        $file = $request->file('avatar');
+        $path = $request->file('avatar')->store('images');
+        dd($file);
     }
 }
